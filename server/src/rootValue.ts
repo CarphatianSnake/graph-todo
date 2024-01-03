@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { Message, MessageInput } from './Message';
-import { data } from './fakeData';
+import { data } from './data';
 
 export const rootValue = {
   getAllMessages: () => Object.keys(data).map((key) => new Message(key, data[key])),
