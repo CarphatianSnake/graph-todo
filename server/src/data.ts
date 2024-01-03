@@ -1,13 +1,17 @@
-export type TData = {
+import { TaskStatus } from './Task';
+
+export type Data = {
   [key: string]: {
-    content: string;
-    author: string;
+    title: string;
+    status: TaskStatus;
+    details: string;
   }
 }
 
-export const data: TData = {
+export const data: Data = {
   '3434f29dffa5522d64ba': {
-    content: 'LoremIpsum',
-    author: 'Agent 007',
+    title: 'Test task',
+    details: 'Lorem ipsum',
+    status: 'idle',
   }
 };

@@ -1,24 +1,32 @@
 import { buildSchema } from 'graphql';
 
 export const schema = buildSchema(`
-  input MessageInput {
-    content: String
-    author: String
+  input TaskInput {
+    title: String
+    details: String
+    status: String
   }
 
-  type Message {
+  type Task {
     id: ID!
-    content: String
-    author: String
+    title: String!
+    status: String!
+    details: String
+  }
+
+  type Success {
+    id: ID!
+    status: Int
   }
 
   type Mutation {
-    createMessage(input: MessageInput): Message
-    updateMessage(id: ID!, input: MessageInput): Message
+    createTask(input: TaskInput): Task
+    updateTask(id: ID!, input: TaskInput): Task
+    deleteTask(id: ID!): Success
   }
 
   type Query {
-    getAllMessages: [Message]
-    getMessage(id: ID!): Message
+    getAllTasks: [Task]
+    getTask(id: ID!): Task
   }
 `);

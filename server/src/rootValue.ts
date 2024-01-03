@@ -1,25 +1,35 @@
 import crypto from 'crypto';
-import { Message, MessageInput } from './Message';
+import { Task, TaskInput } from './Task';
 import { data } from './data';
 
 export const rootValue = {
-  getAllMessages: () => Object.keys(data).map((key) => new Message(key, data[key])),
-  getMessage: ({ id }: { id: string }) => {
+  getAllTasks: () => Object.keys(data).map((key) => new Task(key, data[key])),
+  getTask: ({ id }: { id: string }) => {
     if (data[id]) {
-      return new Message(id, data[id]);
+      return new Task(id, data[id]);
     }
-    throw new Error('no message exists with id ' + id);
+    throw new Error(`no task exists with id ${id}`);
   },
-  createMessage: ({ input }: { input: MessageInput }) => {
+  createTask: ({ input }: { input: TaskInput }) => {
     const id = crypto.randomBytes(10).toString('hex');
     data[id] = input;
-    return new Message(id, input)
+    return new Task(id, data[id]);
   },
-  updateMessage: ({ id, input }: { id: string; input: MessageInput }) => {
+  updateTask: ({ id, input }: { id: string; input: TaskInput }) => {
     if (data[id]) {
-      data[id] = input;
-      return new Message(id, input);
+      data[id] = {
+        ...data[id],
+        ...input,
+      };
+      return new Task(id, data[id]);
     }
-    throw new Error('no message exists with id ' + id);
+    throw new Error(`no task exists with id ${id}`);
+  },
+  deleteTask: ({ id }: { id: string }) => {
+    if (data[id]) {
+      delete data[id];
+      return { status: 200, id };
+    }
+    throw new Error(`no task exists with id ${id}`);
   }
 };
